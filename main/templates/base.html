@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Vulnerable App{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .nav a { margin-right: 15px; text-decoration: none; color: #007bff; }
+        .user-menu { color: #666; }
+        .user-menu a { color: #dc3545; text-decoration: none; margin-left: 10px; }
+        .error { color: red; background: #ffe6e6; padding: 10px; margin: 10px 0; }
+        .success { color: green; background: #e6ffe6; padding: 10px; margin: 10px 0; }
+        form { margin: 20px 0; }
+        input, textarea { padding: 8px; margin: 5px; width: 200px; }
+        button { padding: 10px 15px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .comment { border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="nav">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+                {% if request.session.role == 'admin' %}
+                    <a href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+                {% endif %}
+            </div>
+            
+            {% if request.session.user_id %}
+                <div class="user-menu">
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            {% else %}
+                <div class="user-menu">
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'register' %}">Register</a>
+                </div>
+            {% endif %}
+
+        </div>
+        
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

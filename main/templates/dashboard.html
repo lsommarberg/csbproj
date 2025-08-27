@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Vulnerable App{% endblock %}
+
+{% block content %}
+<h1>Dashboard</h1>
+<p>Welcome, {{ username }}! Your role: {{ role }}</p>
+
+<h2>Search Comments:</h2>
+<form method="get">
+   <!--  {% csrf_token %} -->
+    <label>Search Comments:</label>
+    <input type="text" name="search" placeholder="Search comments..." value="{{ request.GET.search }}">
+    <button type="submit">Search</button>
+</form>
+
+
+<h2>Add Comment</h2>
+<form method="post" action="{% url 'add_comment' %}">
+    <!-- {% csrf_token %} -->
+    <div>
+        <label>Author:</label><br>
+        <input type="text" name="author" value="{{ username }}" required>
+    </div>
+    <div>
+        <label>Comment:</label><br>
+        <textarea name="text" rows="4" cols="50" required></textarea>
+    </div>
+    <button type="submit">Add Comment</button>
+</form>
+
+
+<h2>Comments</h2>
+{% for comment in comments %}
+    <div class="comment">
+        <strong>{{ comment.author }}:</strong>
+        <p>{{ comment.text }}</p>
+        
+        {% if role == 'admin' or request.session.user_id == comment.user_id %}
+            <form method="post" action="{% url 'delete_comment' comment.id %}" style="display: inline;">
+                <button type="submit" style="background: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer;" 
+                        onclick="return confirm('Delete this comment?')">Delete</button>
+            </form>
+
+        {% endif %}
+    </div>
+{% empty %}
+    <p>No comments found.</p>
+{% endfor %}
+
+{% endblock %}

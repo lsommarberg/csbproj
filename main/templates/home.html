@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Vulnerable App{% endblock %}
+
+{% block content %}
+<h1>Welcome to the Vulnerable Web App</h1>
+
+<div>
+    <h2>Getting Started</h2>
+    <p><strong>Quick Setup:</strong> <a href="{% url 'setup_users' %}">Click here to create test users</a></p>
+    
+    <p>Then login with these credentials:</p>
+    
+    <h3>Test Accounts:</h3>
+    <ul>
+        <li>Username: <code>admin</code>, Password: <code>admin123</code> (Admin access)</li>
+        <li>Username: <code>user</code>, Password: <code>password</code> (Regular user)</li>
+    </ul>
+    
+</div>
+{% endblock %}
